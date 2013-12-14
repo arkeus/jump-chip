@@ -7,13 +7,13 @@ package io.arkeus.yogo.game.objects {
 		public function Spike(x:uint, y:uint) {
 			super(x, y, Resource.SPIKE);
 			
-			height = 8;
+			height = 4;
 			width = 8;
 			offset.x = 4;
-			offset.y = 8;
+			offset.y = 12;
 			
 			this.x += 4;
-			this.y += 8;
+			this.y += 12;
 		}
 		
 		override public function collide(player:Player):void {

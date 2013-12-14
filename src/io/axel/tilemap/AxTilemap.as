@@ -68,11 +68,11 @@ package io.axel.tilemap {
 		/**
 		 * The number of rows in the map.
 		 */
-		protected var rows:uint;
+		public var rows:uint;
 		/**
 		 * The number of columns in the map.
 		 */
-		protected var cols:uint;
+		public var cols:uint;
 		/**
 		 * The list of tiles, one for each type of tile in the tiles image.
 		 */

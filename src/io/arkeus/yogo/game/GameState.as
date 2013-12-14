@@ -1,7 +1,5 @@
 package io.arkeus.yogo.game {
-	import io.arkeus.yogo.assets.Resource;
 	import io.arkeus.yogo.game.background.BackgroundSet;
-	import io.arkeus.yogo.game.objects.Coin;
 	import io.arkeus.yogo.game.player.Alice;
 	import io.arkeus.yogo.game.player.Doug;
 	import io.arkeus.yogo.game.player.Player;
@@ -18,11 +16,12 @@ package io.arkeus.yogo.game {
 		public var doug:Player;
 		public var coins:AxGroup;
 		public var objects:AxGroup;
+		public var explosions:AxGroup;
 		
 		public var level:uint;
 		public var levelChanged:Boolean = false;
 		
-		public function GameState(level:uint = 1):void {
+		public function GameState(level:uint = 6):void {
 			this.level = level;
 		}
 		
@@ -43,12 +42,16 @@ package io.arkeus.yogo.game {
 			players.add(alice = new Alice(wb.aliceStart));
 			players.add(doug = new Doug(wb.dougStart));
 			add(players);
-			trace("created");
+			
+			add(explosions = new AxGroup);
 		}
 		
 		override public function update():void {
 			if (won && !levelChanged) {
 				addTimer(1, nextLevel);
+				levelChanged = true;
+			} else if (dead && !levelChanged) {
+				addTimer(2, restartLevel);
 				levelChanged = true;
 			}
 			
@@ -60,6 +63,7 @@ package io.arkeus.yogo.game {
 			}
 			
 			Ax.collide(players, world);
+			Ax.collide(explosions, world);
 			Ax.collide(players, players, function(p1:Player, p2:Player):void {
 				p1.collide(p2);
 			});
@@ -72,9 +76,20 @@ package io.arkeus.yogo.game {
 			return alice.teleported && doug.teleported;
 		}
 		
+		public function get dead():Boolean {
+			return alice.dead || doug.dead;
+		}
+		
 		private function nextLevel():void {
 			Ax.camera.fadeOut(0.5, 0xff000000, function():void {
 				Ax.states.change(new GameState(level + 1));
+				Ax.camera.fadeIn(0.5);
+			});
+		}
+		
+		private function restartLevel():void {
+			Ax.camera.fadeOut(0.5, 0xff000000, function():void {
+				Ax.states.change(new GameState(level));
 				Ax.camera.fadeIn(0.5);
 			});
 		}

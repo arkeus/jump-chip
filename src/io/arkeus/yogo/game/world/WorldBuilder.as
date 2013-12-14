@@ -4,10 +4,13 @@ package io.arkeus.yogo.game.world {
 	
 	import io.arkeus.yogo.assets.Resource;
 	import io.arkeus.yogo.game.World;
+	import io.arkeus.yogo.game.objects.Blocker;
 	import io.arkeus.yogo.game.objects.Coin;
 	import io.arkeus.yogo.game.objects.Portal;
 	import io.arkeus.yogo.game.objects.Spike;
+	import io.arkeus.yogo.game.objects.Teleport;
 	import io.arkeus.yogo.game.player.Player;
+	import io.axel.AxEntity;
 	import io.axel.AxGroup;
 	import io.axel.AxPoint;
 	import io.axel.AxRect;
@@ -22,6 +25,8 @@ package io.arkeus.yogo.game.world {
 		public var coins:AxGroup = new AxGroup;
 		public var objects:AxGroup = new AxGroup;
 		
+		public var teleport:Teleport;
+		
 		public function WorldBuilder() {
 		}
 		
@@ -29,6 +34,7 @@ package io.arkeus.yogo.game.world {
 			var world:World = new World;
 			parseMap(Resource.MAP, level);
 			world.build(tiles, Resource.TILES, World.TILE_SIZE, World.TILE_SIZE, 1);
+			world.getTile(10).collision = AxEntity.NONE;
 			return world;
 		}
 		
@@ -54,7 +60,7 @@ package io.arkeus.yogo.game.world {
 		
 		private function getLevelBounds(level:uint):AxRect {
 			var index:uint = level - 1;
-			var bounds:AxRect = new AxRect(index % PER_ROW * World.WIDTH, Math.floor(index / PER_ROW), World.WIDTH, World.HEIGHT);
+			var bounds:AxRect = new AxRect(index % PER_ROW * World.WIDTH, Math.floor(index / PER_ROW) * World.HEIGHT, World.WIDTH, World.HEIGHT);
 			return bounds;
 		}
 		
@@ -86,7 +92,11 @@ package io.arkeus.yogo.game.world {
 		}
 		
 		private function parseTile():uint {
-			if (!c) {
+			if (cp == ALICE_BRICK) {
+				return 7;
+			} else if (cp == DOUG_BRICK) {
+				return 8;
+			} else if (!c) {
 				return 0;
 			}
 			
@@ -130,18 +140,34 @@ package io.arkeus.yogo.game.world {
 				case ALICE_END: objects.add(new Portal(x, y, Player.ALICE)); break;
 				case DOUG_END: objects.add(new Portal(x, y, Player.DOUG)); break;
 				case SPIKE: objects.add(new Spike(x, y)); break;
+				case ALICE_SWITCH: objects.add(new Blocker(x, y, Player.ALICE)); break;
+				case DOUG_SWITCH: objects.add(new Blocker(x, y, Player.DOUG)); break;
+				case TELEPORT:
+					var t:Teleport = new Teleport(x, y);
+					if (teleport != null) {
+						teleport.link(t);
+					} else {
+						teleport = t;
+					}
+					objects.add(t);
+				break;
 			}
 		}
 		
 		private static const
 		WALL:uint = 0x000000,
-			NOTHING:uint = 0xffffff,
-			ALICE:uint = 0xff00ff,
-			ALICE_COIN:uint = 0xff83ff,
-			ALICE_END:uint = 0x8f008f,
-			DOUG:uint = 0x0080ff,
-			DOUG_COIN:uint = 0x85c2ff,
-			DOUG_END:uint = 0x00478e,
-			SPIKE:uint = 0xff0000
+		NOTHING:uint = 0xffffff,
+		ALICE:uint = 0xff00ff,
+		ALICE_COIN:uint = 0xff83ff,
+		ALICE_END:uint = 0x8f008f,
+		DOUG:uint = 0x0080ff,
+		DOUG_COIN:uint = 0x85c2ff,
+		DOUG_END:uint = 0x00478e,
+		SPIKE:uint = 0xff0000,
+		ALICE_SWITCH:uint = 0x341d34,
+		ALICE_BRICK:uint = 0x5f505f,
+		DOUG_SWITCH:uint = 0x162436,
+		DOUG_BRICK:uint = 0x47515d,
+		TELEPORT:uint = 0x7957fb
 	}
 }

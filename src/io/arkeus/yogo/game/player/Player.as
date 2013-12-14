@@ -1,5 +1,6 @@
 package io.arkeus.yogo.game.player {
 	import io.arkeus.yogo.game.Entity;
+	import io.arkeus.yogo.game.Registry;
 	import io.axel.Ax;
 	import io.axel.AxPoint;
 	import io.axel.input.AxKey;
@@ -14,6 +15,8 @@ package io.arkeus.yogo.game.player {
 		
 		public var teleported:Boolean = false;
 		public var started:Boolean = false;
+		public var dead:Boolean = false;
+		public var lastTeleport:uint = 0;
 		
 		public function Player(start:AxPoint, resource:Class) {
 			super(start.x, start.y, resource, 16, 24);
@@ -44,6 +47,8 @@ package io.arkeus.yogo.game.player {
 			
 			if (Ax.keys.pressed(AxKey.S)) {
 				teleport();
+			} else if (Ax.keys.pressed(AxKey.R)) {
+				destroy();
 			}
 			
 			if (touching & RIGHT) {
@@ -74,6 +79,7 @@ package io.arkeus.yogo.game.player {
 			velocity.x = 0;
 			velocity.y = -50;
 			acceleration.y = 0;
+			solid = false;
 		}
 		
 		public function get frozen():Boolean {
@@ -100,6 +106,16 @@ package io.arkeus.yogo.game.player {
 				top.velocity.y = BOUNCE_SPEED;
 				top.y = bottom.y - top.height;
 			}
+		}
+		
+		override public function destroy():void {
+			if (dead) {
+				return;
+			}
+			dead = true;
+			solid = false;
+			Registry.game.explosions.add(new Explosion(x, y, faction));
+			super.destroy();
 		}
 	}
 }
