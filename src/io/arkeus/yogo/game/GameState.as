@@ -1,5 +1,6 @@
 package io.arkeus.yogo.game {
 	import io.arkeus.yogo.assets.Resource;
+	import io.arkeus.yogo.game.background.BackgroundSet;
 	import io.arkeus.yogo.game.objects.Coin;
 	import io.arkeus.yogo.game.player.Alice;
 	import io.arkeus.yogo.game.player.Doug;
@@ -27,6 +28,8 @@ package io.arkeus.yogo.game {
 		
 		override public function create():void {
 			Registry.game = this;
+			
+			add(new BackgroundSet);
 			
 			var wb:WorldBuilder = new WorldBuilder;
 			world = wb.build(level);

@@ -64,7 +64,7 @@ package io.axel.sprite {
 				matrix.appendRotation(angle, Vector3D.Z_AXIS, pivot);
 			}
 			
-			var sx:Number = x - offset.x + parentOffset.x;
+			var sx:Number = 0; x - offset.x + parentOffset.x;
 			var sy:Number = y - offset.y + parentOffset.y;
 			var scalex:Number = scale.x;
 			var scaley:Number = scale.y;
@@ -79,8 +79,8 @@ package io.axel.sprite {
 				Ax.shader = shader;
 			}
 			
-			uvParams[0] = (parallaxMode & HORIZONTAL) ? (Ax.camera.position.x + Ax.camera.effectOffset.x) / texture.width * scroll.x : 0;
-			uvParams[1] = (parallaxMode & VERTICAL) ? (Ax.camera.position.y + Ax.camera.effectOffset.y) / texture.height * scroll.y : 0;
+			uvParams[0] = (parallaxMode & HORIZONTAL) ? x / texture.width * scroll.x : 0;
+			uvParams[1] = (parallaxMode & VERTICAL) ? y / texture.height * scroll.y : 0;
 			
 			if (blend == null) {
 				Ax.context.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);

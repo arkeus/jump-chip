@@ -12,13 +12,14 @@ package io.arkeus.yogo.game.objects {
 			super(x, y, Resource.COIN, 16, 16);
 			this.faction = faction;
 			show(faction == Player.ALICE ? 0 : 1);
-			delay = AxU.rand(350, 650);
+			delay = AxU.rand(150, 350);
 			centerOrigin();
 		}
 		
 		override public function update():void {
 			if (!collided) {
 				alpha = Math.cos(Ax.now / delay) / 4 + 0.75;
+				scale.x = scale.y = Math.cos(Ax.now / 500) / 10 + 0.9;
 			}
 			
 			super.update();

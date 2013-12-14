@@ -10,7 +10,7 @@ package {
 		}
 		
 		override public function create():void {
-			Ax.background.hex = 0xffdddddd;
+			Ax.background.hex = 0xff414141;
 			Ax.pauseState = null;
 			Ax.unfocusedFramerate = 60;
 		}
