@@ -8,12 +8,15 @@ package io.arkeus.yogo.game.objects {
 			super(x, y, Resource.PORTAL, 16, 16);
 			this.faction = faction;
 			show(faction == Player.ALICE ? 0 : 1);
+			
+			width = height = 4;
+			offset.x = offset.y = 6;
+			this.x += 6;
+			this.y += 6;
 		}
 		
 		override public function collide(player:Player):void {
 			if (collided || player.faction != faction) {
-				return;
-			} else if (Math.abs(player.center.x - center.x) > 2) {
 				return;
 			}
 			

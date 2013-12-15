@@ -6,6 +6,7 @@ package io.arkeus.yogo.game.objects {
 
 	public class Teleport extends Entity {
 		public var other:Teleport;
+		private var growing:Boolean = false;
 		
 		public function Teleport(x:uint, y:uint) {
 			super(x, y, Resource.TELEPORT);
@@ -19,29 +20,44 @@ package io.arkeus.yogo.game.objects {
 		}
 		
 		override public function update():void {
-			if (!collided) {
+			if (!collided && !growing) {
 				scale.x = scale.y = Math.cos(Ax.now / 500) / 10 + 0.9;
+			}
+			
+			if (growing) {
+				velocity.a += Ax.dt * 500;
+			} else if (velocity.a > 180) {
+				velocity.a -= Ax.dt * 500;
 			}
 			
 			super.update();
 		}
 		
 		override public function collide(player:Player):void {
-			if (collided) {
-				return;
-			} else if (Math.abs(player.center.x - center.x) > 2) {
+			if (Math.abs(player.center.x - center.x) > 2) {
 				return;
 			} else if (Ax.now - player.lastTeleport < 500) {
 				return;
 			}
 			
 			player.lastTeleport = Ax.now;
-			collided = true;
 			
 			var dx:Number = player.x - x;
 			var dy:Number = player.y - y;
 			player.x = other.x + dx;
 			player.y = other.y + dy;
+			
+			teleportGrow();
+			other.teleportGrow();
+		}
+		
+		public function teleportGrow():void {
+			growing = true;
+			effects.clear(true).grow(0.4, 3, 3, function():void {
+				effects.grow(0.4, 1, 1, function():void {
+					growing = false;
+				});
+			})
 		}
 	}
 }

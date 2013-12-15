@@ -11,6 +11,10 @@ package io.arkeus.yogo.assets {
 		[Embed(source = "/brick.png")] public static const BRICK:Class;
 		[Embed(source = "/blocker.png")] public static const BLOCKER:Class;
 		[Embed(source = "/teleport.png")] public static const TELEPORT:Class;
+		[Embed(source = "/laser.png")] public static const LASER:Class;
+		[Embed(source = "/blade.png")] public static const BLADE:Class;
+		[Embed(source = "/laser_pink.png")] public static const PINK_LASER:Class;
+		[Embed(source = "/laser_blue.png")] public static const BLUE_LASER:Class;
 		
 		[Embed(source = "/bg_clouds.png")] public static const BG_CLOUDS:Class;
 		[Embed(source = "/bg_mountains.png")] public static const BG_MOUNTAINS:Class;

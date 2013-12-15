@@ -14,7 +14,6 @@ package io.arkeus.yogo.game.player {
 		public static const BOUNCE_SPEED:int = -250;
 		
 		public var teleported:Boolean = false;
-		public var started:Boolean = false;
 		public var dead:Boolean = false;
 		public var lastTeleport:uint = 0;
 		
@@ -68,10 +67,6 @@ package io.arkeus.yogo.game.player {
 			}
 		}
 		
-		public function start():void {
-			started = true;
-		}
-		
 		public function teleport():void {
 			teleported = true;
 			effects.grow(1, 0.01, 4).fadeOut(1);
@@ -112,6 +107,8 @@ package io.arkeus.yogo.game.player {
 			if (dead) {
 				return;
 			}
+			
+			Ax.camera.shake(0.2, 3);
 			dead = true;
 			solid = false;
 			Registry.game.explosions.add(new Explosion(x, y, faction));

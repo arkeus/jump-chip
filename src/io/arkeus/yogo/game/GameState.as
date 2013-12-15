@@ -5,7 +5,9 @@ package io.arkeus.yogo.game {
 	import io.arkeus.yogo.game.player.Player;
 	import io.arkeus.yogo.game.world.WorldBuilder;
 	import io.axel.Ax;
+	import io.axel.AxEntity;
 	import io.axel.AxGroup;
+	import io.axel.collision.AxGrid;
 	import io.axel.input.AxKey;
 	import io.axel.state.AxState;
 
@@ -17,6 +19,8 @@ package io.arkeus.yogo.game {
 		public var coins:AxGroup;
 		public var objects:AxGroup;
 		public var explosions:AxGroup;
+		
+		public var worldColliders:AxGroup;
 		
 		public var level:uint;
 		public var levelChanged:Boolean = false;
@@ -43,6 +47,10 @@ package io.arkeus.yogo.game {
 			players.add(doug = new Doug(wb.dougStart));
 			add(players);
 			
+			worldColliders = new AxGroup;
+			worldColliders.add(players, false, false);
+			worldColliders.add(objects, false, false);
+			
 			add(explosions = new AxGroup);
 		}
 		
@@ -51,18 +59,23 @@ package io.arkeus.yogo.game {
 				addTimer(1, nextLevel);
 				levelChanged = true;
 			} else if (dead && !levelChanged) {
-				addTimer(2, restartLevel);
+				addTimer(1, restartLevel);
 				levelChanged = true;
 			}
 			
 			super.update();
 			
 			if (Ax.keys.pressed(AxKey.ANY) && !alice.started) {
+				for each(var object:AxEntity in objects.members) {
+					if (object is Entity) {
+						(object as Entity).start();
+					}
+				}
 				alice.start();
 				doug.start();
 			}
 			
-			Ax.collide(players, world);
+			Ax.collide(worldColliders, world);
 			Ax.collide(explosions, world);
 			Ax.collide(players, players, function(p1:Player, p2:Player):void {
 				p1.collide(p2);

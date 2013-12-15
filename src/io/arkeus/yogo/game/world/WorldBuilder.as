@@ -4,8 +4,11 @@ package io.arkeus.yogo.game.world {
 	
 	import io.arkeus.yogo.assets.Resource;
 	import io.arkeus.yogo.game.World;
+	import io.arkeus.yogo.game.objects.Blade;
 	import io.arkeus.yogo.game.objects.Blocker;
 	import io.arkeus.yogo.game.objects.Coin;
+	import io.arkeus.yogo.game.objects.ColorLaser;
+	import io.arkeus.yogo.game.objects.Laser;
 	import io.arkeus.yogo.game.objects.Portal;
 	import io.arkeus.yogo.game.objects.Spike;
 	import io.arkeus.yogo.game.objects.Teleport;
@@ -151,6 +154,11 @@ package io.arkeus.yogo.game.world {
 					}
 					objects.add(t);
 				break;
+				case LASER: objects.add(new Laser(x, y)); break;
+				case HBLADE: objects.add(new Blade(x, y, Blade.HORIZONTAL)); break;
+				case VBLADE: objects.add(new Blade(x, y, Blade.VERTICAL)); break;
+				case PINK_LASER: objects.add(new ColorLaser(x, y, Player.ALICE)); break;
+				case BLUE_LASER: objects.add(new ColorLaser(x, y, Player.DOUG)); break;
 			}
 		}
 		
@@ -168,6 +176,11 @@ package io.arkeus.yogo.game.world {
 		ALICE_BRICK:uint = 0x5f505f,
 		DOUG_SWITCH:uint = 0x162436,
 		DOUG_BRICK:uint = 0x47515d,
-		TELEPORT:uint = 0x7957fb
+		TELEPORT:uint = 0x7957fb,
+		LASER:uint = 0xff9898,
+		HBLADE:uint = 0xb60000,
+		VBLADE:uint = 0x740000,
+		PINK_LASER:uint = 0xffc7ff,
+		BLUE_LASER:uint = 0xadd6ff
 	}
 }

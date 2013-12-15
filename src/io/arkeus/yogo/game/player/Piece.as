@@ -10,6 +10,9 @@ package io.arkeus.yogo.game.player {
 			velocity.a = AxU.rand(0, 100);
 			acceleration.y = 600;
 			drag.x = 100;
+			solid = false;
+			
+			addTimer(0.05, function():void { solid = true; });
 		}
 		
 		override public function update():void {
