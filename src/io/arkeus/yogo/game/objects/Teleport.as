@@ -2,7 +2,9 @@ package io.arkeus.yogo.game.objects {
 	import io.arkeus.yogo.assets.Resource;
 	import io.arkeus.yogo.game.Entity;
 	import io.arkeus.yogo.game.player.Player;
+	import io.arkeus.yogo.util.SoundSystem;
 	import io.axel.Ax;
+	import io.axel.particle.AxParticleSystem;
 
 	public class Teleport extends Entity {
 		public var other:Teleport;
@@ -40,6 +42,9 @@ package io.arkeus.yogo.game.objects {
 				return;
 			}
 			
+			AxParticleSystem.emit("coin-blue", x + 3, y + 3);
+			AxParticleSystem.emit("coin-pink", x + 3, y + 3);
+			
 			player.lastTeleport = Ax.now;
 			
 			var dx:Number = player.x - x;
@@ -49,6 +54,7 @@ package io.arkeus.yogo.game.objects {
 			
 			teleportGrow();
 			other.teleportGrow();
+			SoundSystem.play("teleport");
 		}
 		
 		public function teleportGrow():void {

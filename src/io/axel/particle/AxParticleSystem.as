@@ -1,6 +1,7 @@
 package io.axel.particle {
 	import flash.utils.Dictionary;
 	
+	import io.axel.Ax;
 	import io.axel.AxEntity;
 	import io.axel.AxGroup;
 
@@ -50,6 +51,9 @@ package io.axel.particle {
 		 * @return The instance of the particle effect that was placed on screen, null if the effect doesn't exist.
 		 */
 		public static function emit(name:String, x:Number, y:Number):AxParticleCloud {
+			if (Ax.quality == Ax.LOW) {
+				return null;
+			}
 			counter++;
 			
 			if (effects[name] == null) {

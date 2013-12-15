@@ -15,6 +15,11 @@ package io.arkeus.yogo.assets {
 		[Embed(source = "/blade.png")] public static const BLADE:Class;
 		[Embed(source = "/laser_pink.png")] public static const PINK_LASER:Class;
 		[Embed(source = "/laser_blue.png")] public static const BLUE_LASER:Class;
+		[Embed(source = "/noise.png")] public static const NOISE:Class;
+		
+		[Embed(source = "/title_map.png")] public static const TITLE_MAP:Class;
+		[Embed(source = "/title.png")] public static const TITLE:Class;
+		[Embed(source = "/title_start.png")] public static const TITLE_START:Class;
 		
 		[Embed(source = "/bg_clouds.png")] public static const BG_CLOUDS:Class;
 		[Embed(source = "/bg_mountains.png")] public static const BG_MOUNTAINS:Class;
@@ -27,5 +32,11 @@ package io.arkeus.yogo.assets {
 		[Embed(source = "/piece/hand.png")] public static const PIECE_HAND:Class;
 		[Embed(source = "/piece/body.png")] public static const PIECE_BODY:Class;
 		[Embed(source = "/piece/wing.png")] public static const PIECE_WING:Class;
+		
+		[Embed(source = "/particle/pixel_pink.png")] public static const PARTICLE_PIXEL_PINK:Class;
+		[Embed(source = "/particle/pixel_blue.png")] public static const PARTICLE_PIXEL_BLUE:Class;
+		[Embed(source = "/particle/smoke.png")] public static const PARTICLE_SMOKE:Class;
+		[Embed(source = "/particle/brick_pink.png")] public static const PARTICLE_BRICK_PINK:Class;
+		[Embed(source = "/particle/brick_blue.png")] public static const PARTICLE_BRICK_BLUE:Class;
 	}
 }

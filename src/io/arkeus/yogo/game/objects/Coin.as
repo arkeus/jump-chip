@@ -2,8 +2,10 @@ package io.arkeus.yogo.game.objects {
 	import io.arkeus.yogo.assets.Resource;
 	import io.arkeus.yogo.game.Entity;
 	import io.arkeus.yogo.game.player.Player;
+	import io.arkeus.yogo.util.SoundSystem;
 	import io.axel.Ax;
 	import io.axel.AxU;
+	import io.axel.particle.AxParticleSystem;
 
 	public class Coin extends Entity {
 		private var delay:Number;
@@ -13,7 +15,12 @@ package io.arkeus.yogo.game.objects {
 			this.faction = faction;
 			show(faction == Player.ALICE ? 0 : 1);
 			delay = AxU.rand(150, 350);
-			centerOrigin();
+			width = height = 10;
+			offset.x = offset.y = 3;
+			this.x += offset.y;
+			this.y += offset.y;
+			origin.x = animations.frameWidth / 2;
+			origin.y = animations.frameHeight / 2;
 		}
 		
 		override public function update():void {
@@ -29,6 +36,8 @@ package io.arkeus.yogo.game.objects {
 			if (collided || player.faction != faction) {
 				return;
 			}
+			SoundSystem.play("coin");
+			AxParticleSystem.emit(faction == Player.ALICE ? "coin-pink" : "coin-blue", x, y);
 			effects.grow(0.4, 4, 4).fadeOut(0.4, 0, destroy);
 			collided = true;
 		}

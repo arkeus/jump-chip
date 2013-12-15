@@ -76,6 +76,7 @@ package io.axel.sound {
 		 */
 		override public function destroy():void {
 			soundChannel.removeEventListener(Event.SOUND_COMPLETE, destroy);
+			soundChannel.stop();
 			sound = null;
 			soundChannel = null;
 			soundTransform = null;

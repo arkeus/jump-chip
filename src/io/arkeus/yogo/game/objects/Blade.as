@@ -35,7 +35,6 @@ package io.arkeus.yogo.game.objects {
 		}
 		
 		override public function start():void {
-			trace("ASD");
 			super.start();
 			
 			if (dir == HORIZONTAL) {

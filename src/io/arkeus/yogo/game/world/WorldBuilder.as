@@ -41,6 +41,13 @@ package io.arkeus.yogo.game.world {
 			return world;
 		}
 		
+		public function buildTitle():World {
+			var world:World = new World;
+			parseMap(Resource.TITLE_MAP, 1);
+			world.build(tiles, Resource.TILES, World.TILE_SIZE, World.TILE_SIZE, 1);
+			return world;
+		}
+		
 		private function parseMap(map:Class, level:uint = 0):void {
 			tiles = [];
 			
@@ -56,7 +63,7 @@ package io.arkeus.yogo.game.world {
 				tiles.push(row);
 			}
 			
-			if (aliceStart == null || dougStart == null) {
+			if ((aliceStart == null || dougStart == null) && level != 1) {
 				throw new Error("Missing start point(s)");
 			}
 		}

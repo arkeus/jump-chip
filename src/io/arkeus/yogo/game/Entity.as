@@ -14,7 +14,6 @@ package io.arkeus.yogo.game {
 		public function collide(player:Player):void {}
 		
 		public function start():void {
-			trace(1);
 			started = true;
 		}
 	}

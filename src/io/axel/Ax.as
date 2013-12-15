@@ -18,6 +18,7 @@ package io.axel {
 	import flash.ui.MultitouchInputMode;
 	import flash.utils.getTimer;
 	
+	import io.arkeus.yogo.game.world.Noise;
 	import io.axel.camera.AxCamera;
 	import io.axel.collision.AxCollider;
 	import io.axel.collision.AxCollisionGroup;
@@ -31,6 +32,7 @@ package io.axel {
 	import io.axel.sound.AxMusic;
 	import io.axel.sound.AxSound;
 	import io.axel.state.AxStateStack;
+	import io.axel.text.AxText;
 	import io.axel.tilemap.AxTilemap;
 	import io.axel.util.AxCache;
 	import io.axel.util.AxLogger;
@@ -595,6 +597,13 @@ package io.axel {
 			mouse.update(mouseX, mouseY);
 			sounds.update();
 		}
+		
+		public static const HIGH:uint = 2;
+		public static const MEDIUM:uint = 1;
+		public static const LOW:uint = 0;
+		public static var quality:uint = HIGH;
+		private var noise:Noise;
+		public static var levelText:AxText = null;
 
 		/**
 		 * Draws the active states.
@@ -606,9 +615,24 @@ package io.axel {
 
 			states.draw();
 			camera.draw();
+			// Hacking shit in is fun
+			if (levelText != null) {
+				levelText.update();
+			}
+			if (levelText != null) {
+				levelText.draw();
+			}
 			
 			if (debugger.active) {
 				debugger.draw();
+			}
+			
+			if (noise == null) {
+				noise = new Noise();
+			}
+			if (quality == HIGH) {
+				noise.update();
+				noise.draw();
 			}
 			
 			context.present();

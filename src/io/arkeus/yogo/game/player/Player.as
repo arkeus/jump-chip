@@ -1,9 +1,11 @@
 package io.arkeus.yogo.game.player {
 	import io.arkeus.yogo.game.Entity;
-	import io.arkeus.yogo.game.Registry;
+	import io.arkeus.yogo.util.Registry;
+	import io.arkeus.yogo.util.SoundSystem;
 	import io.axel.Ax;
 	import io.axel.AxPoint;
 	import io.axel.input.AxKey;
+	import io.axel.particle.AxParticleSystem;
 
 	public class Player extends Entity {
 		public static const SPEED:uint = 50;
@@ -45,25 +47,40 @@ package io.arkeus.yogo.game.player {
 			}
 			
 			if (Ax.keys.pressed(AxKey.S)) {
-				teleport();
+				//teleport();
 			} else if (Ax.keys.pressed(AxKey.R)) {
 				destroy();
 			}
 			
 			if (touching & RIGHT) {
 				velocity.x = -SPEED;
+				SoundSystem.play("hit-side");
 			} else if (touching & LEFT) {
 				velocity.x = SPEED;
+				SoundSystem.play("hit-side");
+			}
+			
+			if (pvelocity.y > 0 && velocity.y == 0) {
+				SoundSystem.play("fall");
 			}
 			
 			if (started && Ax.keys.pressed(key) && touching & DOWN) {
 				velocity.y = JUMP_SPEED;
+				if (faction == ALICE) {
+					SoundSystem.play("alice-jump");
+				} else {
+					SoundSystem.play("doug-jump");
+				}
 			}
 			
 			if (velocity.x < 0) {
 				facing = LEFT;
 			} else if (velocity.x > 0) {
 				facing = RIGHT;
+			}
+			
+			if (x < -20 || x > Ax.viewWidth + 20 || y < -20 || y > Ax.viewHeight + 20) {
+				destroy();
 			}
 		}
 		
@@ -75,6 +92,7 @@ package io.arkeus.yogo.game.player {
 			velocity.y = -50;
 			acceleration.y = 0;
 			solid = false;
+			SoundSystem.play("portal");
 		}
 		
 		public function get frozen():Boolean {
@@ -100,14 +118,17 @@ package io.arkeus.yogo.game.player {
 			if (top.right > left + BOUNCE_PAD && top.left < right - BOUNCE_PAD && top.velocity.y > 0) {
 				top.velocity.y = BOUNCE_SPEED;
 				top.y = bottom.y - top.height;
+				SoundSystem.play("boop");
 			}
 		}
 		
 		override public function destroy():void {
-			if (dead) {
+			if (dead || frozen) {
 				return;
 			}
 			
+			SoundSystem.play("die");
+			AxParticleSystem.emit("explosion", x, y);
 			Ax.camera.shake(0.2, 3);
 			dead = true;
 			solid = false;

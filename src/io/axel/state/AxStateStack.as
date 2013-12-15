@@ -1,4 +1,6 @@
 package io.axel.state {
+	import flash.system.System;
+	
 	import io.axel.Ax;
 
 	/**
@@ -74,6 +76,7 @@ package io.axel.state {
 		 * @return The new state.
 		 */
 		public function change(state:AxState):AxState {
+			System.gc();
 			pop();
 			return push(state);
 		}

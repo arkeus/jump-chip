@@ -1,7 +1,7 @@
 package io.arkeus.yogo.game.objects {
 	import io.arkeus.yogo.assets.Resource;
 	import io.arkeus.yogo.game.Entity;
-	import io.arkeus.yogo.game.Registry;
+	import io.arkeus.yogo.util.Registry;
 	import io.arkeus.yogo.game.World;
 	import io.axel.AxGroup;
 	import io.axel.tilemap.AxTile;

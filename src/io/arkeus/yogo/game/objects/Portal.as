@@ -2,6 +2,7 @@ package io.arkeus.yogo.game.objects {
 	import io.arkeus.yogo.assets.Resource;
 	import io.arkeus.yogo.game.Entity;
 	import io.arkeus.yogo.game.player.Player;
+	import io.axel.particle.AxParticleSystem;
 
 	public class Portal extends Entity {
 		public function Portal(x:uint, y:uint, faction:uint) {
@@ -13,6 +14,15 @@ package io.arkeus.yogo.game.objects {
 			offset.x = offset.y = 6;
 			this.x += 6;
 			this.y += 6;
+			
+			var self:Portal = this;
+			addTimer(0.1, function():void {
+				var name:String = faction == Player.ALICE ? "portal-pink" : "portal-blue";
+				if (collided) {
+					name += "-complete";
+				}
+				AxParticleSystem.emit(name, self.x - offset.x, self.y - offset.y);
+			}, 0);
 		}
 		
 		override public function collide(player:Player):void {
