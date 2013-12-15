@@ -53,6 +53,11 @@ package io.arkeus.yogo.game {
 			players.add(doug = new Doug(wb.dougStart));
 			add(players);
 			
+			if (level > 12) {
+				alice.visible = alice.exists = alice.solid = false;
+				doug.supersize();
+			}
+			
 			worldColliders = new AxGroup;
 			worldColliders.add(players, false, false);
 			worldColliders.add(objects, false, false);
@@ -146,8 +151,8 @@ package io.arkeus.yogo.game {
 			3: "Other times I forced them to use each other to reach their goals.",
 			4: "Sometimes I felt they had grown fond of each other. But this was only my imagination playing tricks on me. They were bots, after all.",
 			5: "I built new toys to challenge them.",
-			6: "I built new toys to challenge them.",
-			7: "I tried to confuse them.",
+			6: "I tried to confuse them.",
+			7: "I threw more and more obstacles at them.",
 			8: "Yet they always reached their goals.",
 			9: "I began to throw harder challenges at them.",
 			10: "I'd begun to grow fond of watching them explode. I'd always put them back together, of course.",

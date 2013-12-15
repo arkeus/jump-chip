@@ -12,8 +12,14 @@ package {
 		
 		override public function create():void {
 			Ax.background.hex = 0xff414141;
+			
+			// debug
 			Ax.pauseState = null;
 			Ax.unfocusedFramerate = 60;
+			Ax.soundMuted = true;
+			Ax.musicMuted = true;
+			Ax.debuggerEnabled = true;
+			
 			SoundSystem.initialize();
 		}
 	}

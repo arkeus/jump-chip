@@ -134,6 +134,32 @@ package io.arkeus.yogo.assets {
 			effect.endAlpha.min = effect.endAlpha.max = 1;
 			group.add(AxParticleSystem.register(effect));
 			
+			effect = new AxParticleEffect("spark-down", Resource.PARTICLE_SPARK, 10);
+			effect.frameSize.x = effect.frameSize.y = 1;
+			effect.blend = AxBlendMode.PARTICLE;
+			effect.amount = 5;
+			effect.x.min = 0; effect.x.max = 3;
+			effect.y.min = 0; effect.y.max = 0;
+			effect.yVelocity.min = 0; effect.yVelocity.max = 20;
+			effect.xVelocity.min = -20; effect.xVelocity.max = 20;
+			effect.yAcceleration.min = effect.yAcceleration.max = 100;
+			effect.lifetime.min = 0.2; effect.lifetime.max = 0.4;
+			effect.startAlpha.min = effect.startAlpha.max = 1;
+			group.add(AxParticleSystem.register(effect));
+			
+			effect = new AxParticleEffect("spark-up", Resource.PARTICLE_SPARK, 40);
+			effect.frameSize.x = effect.frameSize.y = 1;
+			effect.blend = AxBlendMode.PARTICLE;
+			effect.amount = 20;
+			effect.x.min = 0; effect.x.max = 1;
+			effect.y.min = 0; effect.y.max = 0;
+			effect.yVelocity.min = -70; effect.yVelocity.max = -20;
+			effect.xVelocity.min = -40; effect.xVelocity.max = 40;
+			effect.yAcceleration.min = effect.yAcceleration.max = 200;
+			effect.lifetime.min = 0.3; effect.lifetime.max = 0.5;
+			effect.startAlpha.min = effect.startAlpha.max = 1;
+			group.add(AxParticleSystem.register(effect));
+			
 			return group;
 		}
 	}

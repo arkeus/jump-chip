@@ -34,13 +34,17 @@ package io.arkeus.yogo.title {
 			title.x = (Ax.viewWidth - title.width) / 2;
 			start.x = (Ax.viewWidth - start.width) / 2;
 			
-			add(quality = new AxText(0, 256, null, qualityText, Ax.viewWidth, "center"));
-			add(qualityHelp = new AxText(0, 270, null, "Press @[ff0000]Q@[] to Change", Ax.viewWidth, "center"));
+			add(quality = new AxText(-100, 256, null, qualityText, Ax.viewWidth, "center"));
+			add(qualityHelp = new AxText(-100, 270, null, "Press @[ff0000]Q@[] to Change", Ax.viewWidth, "center"));
 			quality.alpha = qualityHelp.alpha = 0.6;
 			
-			add(mute = new AxText(0, 256, null, "Sound Is @[00ff00]On@[]", Ax.viewWidth, "center"));
-			add(muteHelp = new AxText(0, 270, null, "Press @[ff0000]M@[] to Change", Ax.viewWidth, "center"));
+			add(mute = new AxText(100, 256, null, "Sound Is @[00ff00]On@[]", Ax.viewWidth, "center"));
+			add(muteHelp = new AxText(100, 270, null, "Press @[ff0000]M@[] to Change", Ax.viewWidth, "center"));
 			mute.alpha = muteHelp.alpha = 0.6;
+			
+			if (Ax.mode != "Hardware Mode") {
+				add(new AxText(40, 224, null, "@[ff0000]Warning: Your setup does not support hardware rendering. Performance may be terrible.", Ax.viewWidth - 80, "center"));
+			}
 		}
 		
 		override public function update():void {

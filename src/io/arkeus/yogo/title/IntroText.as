@@ -39,7 +39,7 @@ package io.arkeus.yogo.title {
 		private function begin():void {
 			SoundSystem.play("start");
 			Ax.camera.fadeOut(0.5, 0xff000000, function():void {
-				Ax.states.change(new GameState(1));
+				Ax.states.change(new GameState(8));
 				Ax.camera.fadeIn(0.5);
 			});
 		}

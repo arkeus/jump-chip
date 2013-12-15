@@ -1,5 +1,6 @@
 package io.arkeus.yogo.game.player {
 	import io.arkeus.yogo.game.Entity;
+	import io.arkeus.yogo.game.objects.Heart;
 	import io.arkeus.yogo.util.Registry;
 	import io.arkeus.yogo.util.SoundSystem;
 	import io.axel.Ax;
@@ -12,12 +13,18 @@ package io.arkeus.yogo.game.player {
 		public static const ALICE:uint = 0;
 		public static const DOUG:uint = 1;
 		
+		public static const DOUBLE_JUMP:uint = 1;
+		public static const GUN:uint = 2;
+		
 		public static const JUMP_SPEED:int = -250;
 		public static const BOUNCE_SPEED:int = -250;
 		
 		public var teleported:Boolean = false;
 		public var dead:Boolean = false;
 		public var lastTeleport:uint = 0;
+		
+		public var supersized:Boolean = false;
+		public var chips:uint = 0;
 		
 		public function Player(start:AxPoint, resource:Class) {
 			super(start.x, start.y, resource, 16, 24);
@@ -52,24 +59,34 @@ package io.arkeus.yogo.game.player {
 				destroy();
 			}
 			
-			if (touching & RIGHT) {
-				velocity.x = -SPEED;
-				SoundSystem.play("hit-side");
-			} else if (touching & LEFT) {
-				velocity.x = SPEED;
-				SoundSystem.play("hit-side");
+			if (!supersized) {
+				if (touching & RIGHT) {
+					velocity.x = -SPEED;
+					SoundSystem.play("hit-side");
+				} else if (touching & LEFT) {
+					velocity.x = SPEED;
+					SoundSystem.play("hit-side");
+				}
 			}
 			
 			if (pvelocity.y > 0 && velocity.y == 0) {
 				SoundSystem.play("fall");
 			}
 			
-			if (started && Ax.keys.pressed(key) && touching & DOWN) {
-				velocity.y = JUMP_SPEED;
-				if (faction == ALICE) {
-					SoundSystem.play("alice-jump");
+			if (started) {
+				if (!supersized) {
+					if (Ax.keys.pressed(key) && touching & DOWN) {
+						jump();
+					}
 				} else {
-					SoundSystem.play("doug-jump");
+					if (Ax.keys.pressed(AxKey.A) || Ax.keys.held(AxKey.Q) || Ax.keys.held(AxKey.LEFT)) {
+						velocity.x = -SPEED;
+					} else if (Ax.keys.pressed(AxKey.D) || Ax.keys.pressed(AxKey.RIGHT)) {
+						velocity.x = SPEED;
+					}
+					if (Ax.keys.pressed(AxKey.W) || Ax.keys.pressed(AxKey.UP)) {
+						jump();
+					}
 				}
 			}
 			
@@ -81,6 +98,15 @@ package io.arkeus.yogo.game.player {
 			
 			if (x < -20 || x > Ax.viewWidth + 20 || y < -20 || y > Ax.viewHeight + 20) {
 				destroy();
+			}
+		}
+		
+		private function jump():void {
+			velocity.y = JUMP_SPEED;
+			if (faction == ALICE) {
+				SoundSystem.play("alice-jump");
+			} else {
+				SoundSystem.play("doug-jump");
 			}
 		}
 		
@@ -120,6 +146,15 @@ package io.arkeus.yogo.game.player {
 				top.y = bottom.y - top.height;
 				SoundSystem.play("boop");
 			}
+			
+			if (Math.abs(top.y - bottom.y) < 5 && Registry.game.level > 4) {
+				var center:uint = top.right < bottom.right ? top.right : bottom.right;
+				Registry.game.add(new Heart(center - 3, bottom.y));
+			}
+		}
+		
+		public function supersize():void {
+			supersized = true;
 		}
 		
 		override public function destroy():void {

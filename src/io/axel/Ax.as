@@ -45,7 +45,7 @@ package io.axel {
 	 */
 	public class Ax extends Sprite {
 		public static const LIBRARY_NAME:String = "Axel";
-		public static const LIBRARY_VERSION:String = "0.9.4 r1";
+		public static const LIBRARY_VERSION:String = "0.9.4 jump-chip";
 		
 		/**
 		 * Whether or not the game is running is debug mode.
@@ -496,7 +496,7 @@ package io.axel {
 			Ax.height = requestedHeight == 0 ? stage.stageHeight : requestedHeight;
 			
 			context.configureBackBuffer(Ax.width, Ax.height, 0, false);
-			context.enableErrorChecking = true;
+			context.enableErrorChecking = false;
 			
 			AxCache.reset();
 			AxResource.initialize();
@@ -572,6 +572,9 @@ package io.axel {
 			now = getTimer();
 			
 			dt = then == 0 ? 0 : (now - then) / 1000;
+			if (dt > 1/30) {
+				dt = 1/30;
+			}
 			if (fixedTimestep) {
 				dt = 1 / requestedFramerate;
 			}
