@@ -1,7 +1,6 @@
 package io.arkeus.yogo.title {
 	import io.arkeus.yogo.assets.Particle;
 	import io.arkeus.yogo.assets.Resource;
-	import io.arkeus.yogo.game.GameState;
 	import io.arkeus.yogo.game.background.BackgroundSet;
 	import io.arkeus.yogo.game.world.WorldBuilder;
 	import io.arkeus.yogo.util.SoundSystem;
@@ -43,7 +42,7 @@ package io.arkeus.yogo.title {
 			mute.alpha = muteHelp.alpha = 0.6;
 			
 			if (Ax.mode != "Hardware Mode") {
-				add(new AxText(40, 224, null, "@[ff0000]Warning: Your setup does not support hardware rendering. Performance may be terrible.", Ax.viewWidth - 80, "center"));
+				add(new AxText(40, 140, null, "@[ff0000]Warning: Your setup does not support hardware rendering. Performance may be terrible.", Ax.viewWidth - 80, "center"));
 			}
 		}
 		

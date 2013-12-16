@@ -1,9 +1,7 @@
 package io.arkeus.yogo.game.objects {
 	import io.arkeus.yogo.assets.Resource;
-	import io.arkeus.yogo.game.GameState;
 	import io.arkeus.yogo.game.player.Explosion;
 	import io.arkeus.yogo.title.OutroState;
-	import io.arkeus.yogo.util.LevelText;
 	import io.arkeus.yogo.util.Registry;
 	import io.arkeus.yogo.util.SoundSystem;
 	import io.axel.Ax;

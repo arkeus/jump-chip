@@ -6,7 +6,6 @@ package io.arkeus.yogo.game.objects {
 	import io.arkeus.yogo.util.SoundSystem;
 	import io.axel.Ax;
 	import io.axel.AxU;
-	import io.axel.input.AxKey;
 	import io.axel.particle.AxParticleSystem;
 
 	public class Coin extends Entity {
