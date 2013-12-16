@@ -37,9 +37,12 @@ package io.arkeus.yogo.title {
 			add(qualityHelp = new AxText(-100, 270, null, "Press @[ff0000]Q@[] to Change", Ax.viewWidth, "center"));
 			quality.alpha = qualityHelp.alpha = 0.6;
 			
-			add(mute = new AxText(100, 256, null, "Sound Is @[00ff00]On@[]", Ax.viewWidth, "center"));
-			add(muteHelp = new AxText(100, 270, null, "Press @[ff0000]M@[] to Change", Ax.viewWidth, "center"));
+			add(mute = new AxText(100, 256, null, "", Ax.viewWidth, "center"));
+			add(muteHelp = new AxText(100, 270, null, "", Ax.viewWidth, "center"));
 			mute.alpha = muteHelp.alpha = 0.6;
+			
+			updateMusicText();
+			updateSoundText();
 			
 			if (Ax.mode != "Hardware Mode") {
 				add(new AxText(40, 140, null, "@[ff0000]Warning: Your setup does not support hardware rendering. Performance may be terrible.", Ax.viewWidth - 80, "center"));
@@ -61,12 +64,14 @@ package io.arkeus.yogo.title {
 			}
 			
 			if (Ax.keys.pressed(AxKey.M)) {
-				var muted:Boolean = SoundSystem.toggleMute();
-				if (muted) {
-					mute.text = "Sound is @[ff0000]Off@[]";
-				} else {
-					mute.text = "Sound is @[00ff00]On@[]";
-				}
+				Ax.musicMuted = !Ax.musicMuted;
+				updateMusicText();
+				SoundSystem.play("select");
+			}
+			
+			if (Ax.keys.pressed(AxKey.S)) {
+				Ax.soundMuted = !Ax.soundMuted;
+				updateSoundText();
 				SoundSystem.play("select");
 			}
 			
@@ -87,6 +92,22 @@ package io.arkeus.yogo.title {
 			}*/
 			
 			super.update();
+		}
+		
+		private function updateMusicText():void {
+			if (Ax.musicMuted) {
+				muteHelp.text = "Music: @[ff0000]Off@[] (@[ff0000]M@[] to Change)";
+			} else {
+				muteHelp.text = "Music: @[00ff00]On@[] (@[ff0000]M@[] to Change)";
+			}
+		}
+		
+		private function updateSoundText():void {
+			if (Ax.soundMuted) {
+				mute.text = "Sound: @[ff0000]Off@[] (@[ff0000]S@[] to Change)";
+			} else {
+				mute.text = "Sound: @[00ff00]On@[] (@[ff0000]S@[] to Change)";
+			}
 		}
 		
 		private function get qualityText():String {
