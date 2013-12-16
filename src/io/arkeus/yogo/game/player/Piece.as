@@ -1,9 +1,12 @@
 package io.arkeus.yogo.game.player {
+	import io.axel.Ax;
 	import io.axel.AxU;
 	import io.axel.particle.AxParticleSystem;
 	import io.axel.sprite.AxSprite;
 
 	public class Piece extends AxSprite {
+		private var ptimer:Number = 1;
+		
 		public function Piece(x:uint, y:uint, graphic:Class) {
 			super(x, y, graphic);
 			velocity.x = AxU.rand(-300, 300);
@@ -18,17 +21,24 @@ package io.arkeus.yogo.game.player {
 		
 		override public function update():void {
 			if (touching & LEFT || touching & RIGHT) {
-				velocity.x *= -1;
+				velocity.x = pvelocity.x * -1;
 			}
 			if (touching & UP || touching & DOWN) {
 				velocity.y *= -1;
 			}
 			
 			if (touching & DOWN) {
-				velocity.a = 0;
+				if (pvelocity.y > 100) {
+					velocity.y = -pvelocity.y * 0.5;
+				} else {
+					velocity.a = 0;
+				}
 			}
 			
-			AxParticleSystem.emit("smoke", center.x, center.y);
+			ptimer -= Ax.dt;
+			if (ptimer > 0) {
+				AxParticleSystem.emit("smoke", center.x, center.y);
+			}
 			
 			super.update();
 		}

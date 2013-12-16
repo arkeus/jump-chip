@@ -15,6 +15,9 @@ package io.arkeus.yogo.game.objects {
 		}
 		
 		override public function collide(player:Player):void {
+			if (Math.abs(center.x - player.center.x) > 2) {
+				return;
+			}
 			player.destroy();
 		}
 	}

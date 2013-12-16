@@ -4,8 +4,8 @@ package io.arkeus.yogo.game.objects {
 	import io.axel.sprite.AxSprite;
 
 	public class Heart extends AxSprite {
-		public function Heart(x:uint, y:uint) {
-			super(x, y, Resource.HEART);
+		public function Heart(x:uint, y:uint, broken:Boolean = false) {
+			super(x, y, broken ? Resource.BROKEN_HEART : Resource.HEART);
 			velocity.y = -20;
 			solid = false;
 		}

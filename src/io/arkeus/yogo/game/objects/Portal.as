@@ -2,6 +2,7 @@ package io.arkeus.yogo.game.objects {
 	import io.arkeus.yogo.assets.Resource;
 	import io.arkeus.yogo.game.Entity;
 	import io.arkeus.yogo.game.player.Player;
+	import io.arkeus.yogo.util.Registry;
 	import io.axel.particle.AxParticleSystem;
 
 	public class Portal extends Entity {
@@ -26,7 +27,17 @@ package io.arkeus.yogo.game.objects {
 		}
 		
 		override public function collide(player:Player):void {
-			if (collided || player.faction != faction) {
+			if (collided || player.failed || (player.faction != faction && !player.supersized)) {
+				return;
+			}
+			
+			if (player.supersized && player.faction == faction) {
+				player.fail();
+				Registry.game.add(new Heart(player.center.x - 3, player.y, true));
+				Registry.game.wrongPortal = true;
+				addTimer(1, function():void {
+					player.destroy();
+				});
 				return;
 			}
 			

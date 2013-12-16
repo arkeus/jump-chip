@@ -17,8 +17,15 @@ package io.arkeus.yogo.assets {
 		[Embed(source = "/laser_blue.png")] public static const BLUE_LASER:Class;
 		[Embed(source = "/noise.png")] public static const NOISE:Class;
 		[Embed(source = "/heart.png")] public static const HEART:Class;
+		[Embed(source = "/broken_heart.png")] public static const BROKEN_HEART:Class;
+		[Embed(source = "/enemy.png")] public static const ENEMY:Class;
+		[Embed(source = "/boss.png")] public static const BOSS:Class;
+		[Embed(source = "/bullet.png")] public static const BULLET:Class;
 		
 		[Embed(source = "/title_map.png")] public static const TITLE_MAP:Class;
+		[Embed(source = "/intro_map.png")] public static const INTRO_MAP:Class;
+		[Embed(source = "/outro_map_bad.png")] public static const OUTRO_MAP_BAD:Class;
+		[Embed(source = "/outro_map_good.png")] public static const OUTRO_MAP_GOOD:Class;
 		[Embed(source = "/title.png")] public static const TITLE:Class;
 		[Embed(source = "/title_start.png")] public static const TITLE_START:Class;
 		
@@ -33,6 +40,11 @@ package io.arkeus.yogo.assets {
 		[Embed(source = "/piece/hand.png")] public static const PIECE_HAND:Class;
 		[Embed(source = "/piece/body.png")] public static const PIECE_BODY:Class;
 		[Embed(source = "/piece/wing.png")] public static const PIECE_WING:Class;
+		
+		[Embed(source = "/piece/head_boss.png")] public static const PIECE_HEAD_BOSS:Class;
+		[Embed(source = "/piece/hand_boss.png")] public static const PIECE_HAND_BOSS:Class;
+		[Embed(source = "/piece/body_boss.png")] public static const PIECE_BODY_BOSS:Class;
+		[Embed(source = "/piece/wing_boss.png")] public static const PIECE_WING_BOSS:Class;
 		
 		[Embed(source = "/particle/pixel_pink.png")] public static const PARTICLE_PIXEL_PINK:Class;
 		[Embed(source = "/particle/pixel_blue.png")] public static const PARTICLE_PIXEL_BLUE:Class;

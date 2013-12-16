@@ -4,14 +4,21 @@ package io.arkeus.yogo.game.player {
 
 	public class Explosion extends AxGroup {
 		public function Explosion(x:uint, y:uint, faction:uint) {
-			addPiece(x + 5, y + 3, Resource.PIECE_BODY);
-			addPiece(x + 5, y + 5, Resource.PIECE_HAND);
-			addPiece(x + 5, y, Resource.PIECE_WING);
-			if (faction == Player.ALICE) {
-				addPiece(x + 3, y - 3, Resource.PIECE_HEAD_ALICE);
-				addPiece(x + 7, y - 3, Resource.PIECE_BOW);
+			if (faction != 2) {
+				addPiece(x + 5, y + 3, Resource.PIECE_BODY);
+				addPiece(x + 5, y + 5, Resource.PIECE_HAND);
+				addPiece(x + 5, y, Resource.PIECE_WING);
+				if (faction == Player.ALICE) {
+					addPiece(x + 3, y - 3, Resource.PIECE_HEAD_ALICE);
+					addPiece(x + 7, y - 3, Resource.PIECE_BOW);
+				} else {
+					addPiece(x + 3, y - 3, Resource.PIECE_HEAD_DOUG);
+				}
 			} else {
-				addPiece(x + 3, y - 3, Resource.PIECE_HEAD_DOUG);
+				addPiece(x + 5, y + 3, Resource.PIECE_BODY_BOSS);
+				addPiece(x + 5, y + 5, Resource.PIECE_HAND_BOSS);
+				addPiece(x + 5, y, Resource.PIECE_WING_BOSS);
+				addPiece(x + 3, y - 3, Resource.PIECE_HEAD_BOSS);
 			}
 		}
 		

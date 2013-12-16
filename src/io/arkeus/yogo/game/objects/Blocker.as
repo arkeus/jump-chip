@@ -13,18 +13,24 @@ package io.arkeus.yogo.game.objects {
 			super(x, y, Resource.BLOCKER, 16, 16);
 			this.faction = faction;
 			centerOrigin();
-			show(faction == Player.ALICE ? 0 : 1);
+			
+			if (faction == Player.ALICE) {
+				animations.add("wiggle", [0, 1, 2, 1], 4);
+			} else {
+				animations.add("wiggle", [3, 4, 5, 4], 4);
+			}
+			animate("wiggle");
 		}
 		
 		override public function collide(player:Player):void {
-			if (collided || player.faction != faction) {
+			if (collided || (player.faction != faction && !player.supersized)) {
 				return;
 			}
 			
 			AxParticleSystem.emit(faction == Player.ALICE ? "coin-pink" : "coin-blue", this.x + 3, this.y + 3);
 			
 			SoundSystem.play("bricker");
-			show(2);
+			show(6);
 			collided = true;
 			Registry.game.world.getTile(tileID);
 			var world:World = Registry.game.world;

@@ -160,6 +160,19 @@ package io.arkeus.yogo.assets {
 			effect.startAlpha.min = effect.startAlpha.max = 1;
 			group.add(AxParticleSystem.register(effect));
 			
+			effect = new AxParticleEffect("bullet-red", Resource.PARTICLE_SPARK, 10);
+			effect.frameSize.x = effect.frameSize.y = 1;
+			effect.blend = AxBlendMode.PARTICLE;
+			effect.amount = 20;
+			effect.x.min = 0; effect.x.max = 4;
+			effect.y.min = 0; effect.y.max = 2;
+			effect.yVelocity.min = -100; effect.yVelocity.max = -50;
+			effect.xVelocity.min = -50; effect.xVelocity.max = 50;
+			effect.yAcceleration.min = effect.yAcceleration.max = 300;
+			effect.lifetime.min = 0.3; effect.lifetime.max = 0.5;
+			effect.startAlpha.min = effect.startAlpha.max = 1;
+			group.add(AxParticleSystem.register(effect));
+			
 			return group;
 		}
 	}

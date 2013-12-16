@@ -1,5 +1,6 @@
 package io.arkeus.yogo.game.player {
 	import io.arkeus.yogo.assets.Resource;
+	import io.axel.Ax;
 	import io.axel.AxPoint;
 	import io.axel.input.AxKey;
 	
@@ -15,8 +16,8 @@ package io.arkeus.yogo.game.player {
 			velocity.x = -SPEED;
 		}
 		
-		override protected function get key():uint {
-			return AxKey.D;
+		override protected function get pressedJumpKey():Boolean {
+			return Ax.keys.pressed(AxKey.D) || Ax.keys.pressed(AxKey.RIGHT);
 		}
 	}
 }

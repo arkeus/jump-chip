@@ -36,10 +36,15 @@ package io.arkeus.yogo.title {
 			add(skip);
 		}
 		
+		private var begun:Boolean = false;
 		private function begin():void {
+			if (begun) {
+				return;
+			}
 			SoundSystem.play("start");
+			begun = true;
 			Ax.camera.fadeOut(0.5, 0xff000000, function():void {
-				Ax.states.change(new GameState(8));
+				Ax.states.change(new GameState(1));
 				Ax.camera.fadeIn(0.5);
 			});
 		}

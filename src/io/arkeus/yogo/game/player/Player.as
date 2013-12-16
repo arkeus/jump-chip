@@ -1,5 +1,7 @@
 package io.arkeus.yogo.game.player {
 	import io.arkeus.yogo.game.Entity;
+	import io.arkeus.yogo.game.objects.Bullet;
+	import io.arkeus.yogo.game.objects.Enemy;
 	import io.arkeus.yogo.game.objects.Heart;
 	import io.arkeus.yogo.util.Registry;
 	import io.arkeus.yogo.util.SoundSystem;
@@ -10,6 +12,7 @@ package io.arkeus.yogo.game.player {
 
 	public class Player extends Entity {
 		public static const SPEED:uint = 50;
+		public static const SUPER_SPEED:uint = 100;
 		public static const ALICE:uint = 0;
 		public static const DOUG:uint = 1;
 		
@@ -18,13 +21,19 @@ package io.arkeus.yogo.game.player {
 		
 		public static const JUMP_SPEED:int = -250;
 		public static const BOUNCE_SPEED:int = -250;
+		public static const SHOOT_DELAY:Number = 0.4;
 		
 		public var teleported:Boolean = false;
+		public var failed:Boolean = false;
 		public var dead:Boolean = false;
 		public var lastTeleport:uint = 0;
 		
 		public var supersized:Boolean = false;
 		public var chips:uint = 0;
+		public var invincible:Boolean = false;
+		public var freezed:Boolean = false;
+		
+		public var shootTimer:Number = 0;
 		
 		public function Player(start:AxPoint, resource:Class) {
 			super(start.x, start.y, resource, 16, 24);
@@ -75,20 +84,28 @@ package io.arkeus.yogo.game.player {
 			
 			if (started) {
 				if (!supersized) {
-					if (Ax.keys.pressed(key) && touching & DOWN) {
+					if (pressedJumpKey && touching & DOWN) {
 						jump();
 					}
 				} else {
-					if (Ax.keys.pressed(AxKey.A) || Ax.keys.held(AxKey.Q) || Ax.keys.held(AxKey.LEFT)) {
-						velocity.x = -SPEED;
-					} else if (Ax.keys.pressed(AxKey.D) || Ax.keys.pressed(AxKey.RIGHT)) {
-						velocity.x = SPEED;
+					if (Ax.keys.held(AxKey.A) || Ax.keys.held(AxKey.Q) || Ax.keys.held(AxKey.LEFT)) {
+						velocity.x = -SUPER_SPEED;
+					} else if (Ax.keys.held(AxKey.D) || Ax.keys.held(AxKey.RIGHT)) {
+						velocity.x = SUPER_SPEED;
+					} else {
+						velocity.x = 0;
 					}
-					if (Ax.keys.pressed(AxKey.W) || Ax.keys.pressed(AxKey.UP)) {
+					if ((Ax.keys.pressed(AxKey.W) || Ax.keys.pressed(AxKey.UP)) && touching & DOWN) {
 						jump();
+					}
+					if (Ax.keys.held(AxKey.SPACE) && shootTimer <= 0) {
+						shoot();
+						shootTimer = SHOOT_DELAY;
 					}
 				}
 			}
+			
+			shootTimer -= Ax.dt;
 			
 			if (velocity.x < 0) {
 				facing = LEFT;
@@ -101,6 +118,11 @@ package io.arkeus.yogo.game.player {
 			}
 		}
 		
+		private function shoot():void {
+			SoundSystem.play("shoot");
+			var bullet:Bullet = Enemy.getBullet(center.x, y + 4, facing, true);
+		}
+		
 		private function jump():void {
 			velocity.y = JUMP_SPEED;
 			if (faction == ALICE) {
@@ -108,6 +130,11 @@ package io.arkeus.yogo.game.player {
 			} else {
 				SoundSystem.play("doug-jump");
 			}
+		}
+		
+		public function freeze():void {
+			freezed = true;
+			acceleration.y = 0;
 		}
 		
 		public function teleport():void {
@@ -122,11 +149,11 @@ package io.arkeus.yogo.game.player {
 		}
 		
 		public function get frozen():Boolean {
-			return teleported;
+			return teleported || failed || freezed;
 		}
 		
-		protected function get key():uint {
-			return 0;
+		protected function get pressedJumpKey():Boolean {
+			return false;
 		}
 		
 		private static const BOUNCE_PAD:uint = 1;
@@ -153,12 +180,17 @@ package io.arkeus.yogo.game.player {
 			}
 		}
 		
+		public function fail():void {
+			failed = true;
+			velocity.x = 0;
+		}
+		
 		public function supersize():void {
 			supersized = true;
 		}
 		
 		override public function destroy():void {
-			if (dead || frozen) {
+			if (dead || teleported || invincible) {
 				return;
 			}
 			

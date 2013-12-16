@@ -2,9 +2,11 @@ package io.arkeus.yogo.game.objects {
 	import io.arkeus.yogo.assets.Resource;
 	import io.arkeus.yogo.game.Entity;
 	import io.arkeus.yogo.game.player.Player;
+	import io.arkeus.yogo.util.Registry;
 	import io.arkeus.yogo.util.SoundSystem;
 	import io.axel.Ax;
 	import io.axel.AxU;
+	import io.axel.input.AxKey;
 	import io.axel.particle.AxParticleSystem;
 
 	public class Coin extends Entity {
@@ -40,6 +42,7 @@ package io.arkeus.yogo.game.objects {
 			AxParticleSystem.emit(faction == Player.ALICE ? "coin-pink" : "coin-blue", x, y);
 			effects.grow(0.4, 4, 4).fadeOut(0.4, 0, destroy);
 			collided = true;
+			Registry.game.coinsCollected++;
 		}
 	}
 }

@@ -16,7 +16,7 @@ package io.arkeus.yogo.title {
 			add(new BackgroundSet);
 			
 			var wb:WorldBuilder = new WorldBuilder;
-			add(wb.buildTitle());
+			add(wb.buildIntro());
 			
 			add(new IntroText);
 		}

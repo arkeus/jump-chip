@@ -80,6 +80,13 @@ package io.arkeus.yogo.title {
 				done = true;
 			}
 			
+			/*if (Ax.keys.pressed(AxKey.ESCAPE)) {
+				Ax.camera.fadeOut(0.5, 0xff000000, function():void {
+					Ax.states.change(new GameState(15));
+					Ax.camera.fadeIn(0.5);
+				});
+			}*/
+			
 			super.update();
 		}
 		

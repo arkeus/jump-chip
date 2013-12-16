@@ -6,8 +6,11 @@ package io.arkeus.yogo.game.world {
 	import io.arkeus.yogo.game.World;
 	import io.arkeus.yogo.game.objects.Blade;
 	import io.arkeus.yogo.game.objects.Blocker;
+	import io.arkeus.yogo.game.objects.Boss;
 	import io.arkeus.yogo.game.objects.Coin;
 	import io.arkeus.yogo.game.objects.ColorLaser;
+	import io.arkeus.yogo.game.objects.DynamicLaser;
+	import io.arkeus.yogo.game.objects.Enemy;
 	import io.arkeus.yogo.game.objects.Laser;
 	import io.arkeus.yogo.game.objects.Portal;
 	import io.arkeus.yogo.game.objects.Spike;
@@ -27,6 +30,7 @@ package io.arkeus.yogo.game.world {
 		
 		public var coins:AxGroup = new AxGroup;
 		public var objects:AxGroup = new AxGroup;
+		public var enemies:AxGroup = new AxGroup;
 		
 		public var teleport:Teleport;
 		
@@ -44,6 +48,20 @@ package io.arkeus.yogo.game.world {
 		public function buildTitle():World {
 			var world:World = new World;
 			parseMap(Resource.TITLE_MAP, 1);
+			world.build(tiles, Resource.TILES, World.TILE_SIZE, World.TILE_SIZE, 1);
+			return world;
+		}
+		
+		public function buildIntro():World {
+			var world:World = new World;
+			parseMap(Resource.INTRO_MAP, 1);
+			world.build(tiles, Resource.TILES, World.TILE_SIZE, World.TILE_SIZE, 1);
+			return world;
+		}
+		
+		public function buildOutro(good:Boolean):World {
+			var world:World = new World;
+			parseMap(good ? Resource.OUTRO_MAP_GOOD : Resource.OUTRO_MAP_BAD, 1);
 			world.build(tiles, Resource.TILES, World.TILE_SIZE, World.TILE_SIZE, 1);
 			return world;
 		}
@@ -166,6 +184,9 @@ package io.arkeus.yogo.game.world {
 				case VBLADE: objects.add(new Blade(x, y, Blade.VERTICAL)); break;
 				case PINK_LASER: objects.add(new ColorLaser(x, y, Player.ALICE)); break;
 				case BLUE_LASER: objects.add(new ColorLaser(x, y, Player.DOUG)); break;
+				case ENEMY: var enemy:Enemy = new Enemy(x, y); objects.add(enemy); enemies.add(enemy); break;
+				case DYNAMIC_LASER: objects.add(new DynamicLaser(x, y)); break;
+				case BOSS: var boss:Boss = new Boss(x, y); objects.add(boss); enemies.add(boss); break;
 			}
 		}
 		
@@ -188,6 +209,9 @@ package io.arkeus.yogo.game.world {
 		HBLADE:uint = 0xb60000,
 		VBLADE:uint = 0x740000,
 		PINK_LASER:uint = 0xffc7ff,
-		BLUE_LASER:uint = 0xadd6ff
+		BLUE_LASER:uint = 0xadd6ff,
+		ENEMY:uint = 0x5a5a5a,
+		BOSS:uint = 0xa22e2e,
+		DYNAMIC_LASER:uint = 0xff7777
 	}
 }
